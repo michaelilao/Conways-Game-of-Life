@@ -1,6 +1,6 @@
 # Conway's Game of Life
 
-C++ simulation of John Conway's game of life.
+C++ simulation of John Conway's game of life.  
 Run make experiment
 
 __BOARD__  
