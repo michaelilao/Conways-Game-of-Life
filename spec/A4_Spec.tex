@@ -1,0 +1,283 @@
+\documentclass{article}
+\usepackage[utf8]{inputenc}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{color}
+
+\newif\ifcomments\commentstrue
+
+\ifcomments
+\newcommand{\authornote}[3]{\textcolor{#1}{[#3 ---#2]}}
+\newcommand{\todo}[1]{\textcolor{red}{[TODO: #1]}}
+\else
+\newcommand{\authornote}[3]{}
+\newcommand{\todo}[1]{}
+\fi
+
+\newcommand{\wss}[1]{\authornote{blue}{MI}{#1}}
+\title{A4 Design Specification}
+\author{Michael Ilao, ilaom, 400114462 }
+\date{April 9th 2019}
+
+\begin{document}
+
+\maketitle
+\section{Introduction}
+The design specification describes an implementation of John Conway's Game of Life. The specification uses the model-view-controller design pattern. The Model consists of the GOL$\_$Board and the in$\_$outReader. The in$\_$outReader takes a file of an array of 0's and 1's and converts the information into a string. It also is used to write a string into the same format as the input files. The GOL$\_$Board then uses that string and converts it into a 2D array with matching cells as the input file. The Board then computes the next iteration of the Game of Life, where 0's represent dead cells and 1's represent alive cells. The game can then be viewed by the user using the View Module, viewBoard. The viewBoard module takes a 2D array and prints to the User in the console. The Controller part of the design pattern is taken care of by the test cases, that demonstrate the functionality of the implementation.
+
+\section{Critique$\backslash$Overview}
+The design specification and implementation demonstrates the following qualities, $Consistency$; The language is clear and concise, the symbols used are all defined within each module and any exported types used throughout the specification are defined in each module used. The order of parameters are always the same throughout the specification and exceptions are used to handle boundary cases. $Essentiality$; the specification is essential throughout as their modules all have unique functions that do not overlap. The I/O module has only one way to write a file and one way read a file. The GOL$\_$Board does violate this quality as toString and getBoardArray do essentialy return the same object however this attributes to understanding the specification and how each module interacts with each other. $Generalilty$; The specification has multiple features to how it can be used as the I/O Module can be used for any program that needs to read and write to a file as it reads in strings and outputs strings and not a 2D array which is only specific to this program. $Minimality$; access routines work together to form a functional design of the game. $Cohesion$; The Components of the game are very closely related as they all need to be used in order to run the game. First the I/O module must be called to read a file. Then the GOL$\_$Board must be called to create the board and run a simulation. Then the view Module must be called to see the progress of the game. Finally to save the game I/O must be then called again. Finally the specification demonstates $Information Hiding$; as all state variables are private and can only be accessed using getters, though this only returns a copy of the state variable. All access routines are simple in their function though require hidden local functions to fully perform their task.
+
+\newpage
+
+\section* {Input/Output Module}
+
+\subsection* {Module}
+in$\_$outReader
+
+\subsection* {Uses}
+N/A
+
+\subsection* {Syntax}
+
+\subsubsection* {Exported Constants}
+N/A
+
+\subsubsection* {Exported Types}
+N/A
+\subsubsection* {Exported Access Programs}
+
+\begin{table}[!ht]
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        Routine Name     & In             & Out    & Exceptions       \\ \hline
+        new in$\_$outReader & ~              & ~      & none             \\ \hline
+        readInput        & path : string         & data : string & invalid$\_$argument \\ \hline
+        writeOutput      & path : string, data : string & ~      & none             \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsection* {Semantics}
+
+\subsubsection* {State Variables}
+
+None
+
+\subsubsection* {State Invariant}
+
+None
+
+\subsubsection* {Access Routine Semantics}
+
+new in$\_$outReader():
+\begin{itemize}
+\item exception: none
+\end{itemize}
+\wss{Used to create an object to utilize the other functions}
+
+\newpage
+\noindent readInput($path$):
+\begin{itemize}
+\item transition: read data from file assosiated with $path$ this data is used to populate a game board table in GOL$\_$Board module. \\
+
+This file consists of a text file that is contains a string of 0's and 1's. The file can contain any amount of rows and columns, but each column must be the same size and each row must be the same size. Though column's does not have to be equal to row's. There should be a space between 0's and 1's (ommit commas)\\
+
+ \begin{equation}
+    \begin{array}{ccccccc}
+      0/1_{0,0}, & 0/1_{0,1}, & 0/1_{0,2}, & 0/1_{0,3}, & 0/1_{0,4}, & ..., &0/1_{0,j} \\
+      0/1_{1,0}, & 0/1_{1,1}, & 0/1_{1,2}, & 0/1_{1,3}, & 0/1_{1,4}, & ..., &0/1_{1,j} \\
+      ..., & ..., & ..., & ..., & ..., & ..., &..., \\
+      0/1_{i,0}, & 0/1_{i,1}, & 0/1_{i,2}, & 0/1_{i,3}, & 0/1_{i,4}, & ..., &0/1_{i,j} \\
+    \end{array}
+  \end{equation}
+\item output: Table converted to a string, data.
+\item exception: (path = NULL $\Rightarrow$ invalid$\_$argument)
+\end{itemize}
+\wss{Reads a text file from path and returns a string. Note text file must be in format described}
+
+
+\noindent writeOutput($path,data$):
+\begin{itemize}
+\item transition: Writes a file from $path$, containing $data$
+\item output: none
+\item exception: none
+\end{itemize}
+\wss{Writes string, data to a file in string, path}
+
+\newpage
+
+\section*{View Module}
+
+\subsection*{Module}
+viewBoard
+
+\subsection*{Uses}
+N/A
+\subsection*{Syntax}
+
+\subsubsection* {Exported Constants}
+N/A
+
+\subsubsection* {Exported Types}
+boardArray = seq of (seq of (e : string))
+\subsubsection* {Exported Access Programs}
+
+\begin{table}[!ht]
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        Routine Name  & In & Out & Exceptions \\ \hline
+        new viewBoard & ~  & ~   & None       \\ \hline
+        printBoard    & game : boardArray  & ~   & $out\_of\_range$       \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection* {State Variables}
+
+None
+
+\subsubsection* {State Invariant}
+
+None
+\subsection*{Semantics}
+\subsubsection*{Enviroment Variables}
+console: two dimensional sequence of coloured pixels
+\subsubsection* {Access Routine Semantics}
+new viewBoard():
+\begin{itemize}
+\item exception: none
+\end{itemize}
+\wss{Used to utilize print function}
+
+\newpage
+\noindent printBoard($game$):
+\begin{itemize}
+\item transition: modify console so
+($\forall i:\mathbb{N}|i<|game|. \forall j:\mathbb{N}| j<|game[i]$.
+game[i][j] is printed on console with " "(empty spaces in between)
+$\land$ j = game[i] $\Rightarrow$ print on console a new line character)
+
+\item exception: ($|game| = 0 $ $\lor$  $\exists i :\mathbb{N} | i < |game|. |game[i]| = 0 \Rightarrow out\_of\_range)$
+\end{itemize}
+\wss{On the console print index i,j of the 2D array i counts up to size of the array, and j counts up to the size of the array contained in index, i. After printing contents of an index print a space character and if j = to the size of the array print a new line character}
+
+\newpage
+
+\section*{Model Module}
+
+\subsection*{Module}
+GOL$\_$Board
+
+\subsection*{Uses}
+N/A
+\subsection*{Syntax}
+
+\subsubsection* {Exported Constants}
+N/A
+
+\subsubsection* {Exported Types}
+boardArray = seq of (seq of (e : string))
+\subsubsection* {Exported Access Programs}
+
+\begin{table}[!ht]
+    \begin{tabular}{|l|l|l|l|}
+        \hline
+        Routine Name     & In            & Out                                  & Exceptions \\ \hline
+        new GOL$\_$Board & data : string & ~                                    & None       \\ \hline
+        nextMove         & ~             & ~                                    & None       \\ \hline
+        toString         & ~             & str : string                         & None       \\ \hline
+        getBoardArray    & ~             & board : boardArray & None~          \\
+        \hline
+    \end{tabular}
+\end{table}
+
+\subsubsection* {State Variables}
+
+game : boardArray \\
+Updatedgame : board Array
+
+\subsubsection* {State Invariant}
+
+None
+\newpage
+
+\subsection*{Semantics}
+
+\subsubsection* {Access Routine Semantics}
+GOL$\_$Board($data$)
+\begin{itemize}
+    \item transition: \\
+    line : seq of string \\
+    xs = xSize(data) \\
+    ys = ySize(data) \\
+
+    $\forall\: i \: :\: \mathbb{N} \: |\: i < \: |data|. \; ((data[i] = 1 \Rightarrow line[i\%xs] = data[i])\: \lor \; (data[i] = 0 \Rightarrow line[i\%xs] = data[i])) \land (i = xs \Rightarrow (game[i\%ys] = line \Rightarrow line = null$)) \\
+
+    Updatedgame = game
+    \item exception: none
+\end{itemize}
+\wss{Creates a new game board with the string, data. updates the $game$ state variable by creating adding a sequence of 0's and 1's to an index, i in the $game$ array. When  the size of a sequence is = size of the row add that sequence to the $game$ array. Clear the seqence and move onto the next index in the $game$ array}
+
+\noindent nextMove()
+\begin{itemize}
+    \item transition : \\
+    $\forall\: i,j\: : \: \mathbb{N}\: | \: i \: <\: |game|\:, j <\: |game[i]| \: .\;
+    \\checkStatus(game[i][j],i,j) \Rightarrow Updatedgame[i][j] = 1 \; \lor \\
+    \; \neg checkStatus(game[i][j],i,j) \Rightarrow Updatedgame[i][j] = 0 $ \\
+    game = Updatedgame
+    \item exception: none
+\end{itemize}
+\wss{Loop through all indicies in the $game$ array, call checkStatus, if it returns true than put a 1 in the same index in the $Updatedgame$ array. If it returns false put a 0 instead. At the end of the loop set the current $game$ to the $Updatedgame$ }
+
+
+\noindent toString()
+\begin{itemize}
+    \item output: out : string \\
+     $\forall\: i,j\: : \: \mathbb{N}\: | \: i \: <\: |game|\:, j <\: |game[i]| \: .\; out||game[i][j]||"\;" \land \\
+     j\: =\: |game[i]|\: \Rightarrow \: out||"\backslash$n"
+    \item exception: none
+\end{itemize}
+\wss{Build a string of each index in the $game$ array with spaces in between, when at the end of a row add a new line character and continue to the next row.}
+
+\noindent getBoardArray()
+\begin{itemize}
+    \item output : game
+    \item exception : none
+\end{itemize}
+\subsection*{Local Functions}
+xSize: string $\Rightarrow$ $\mathbb{Z}$ \\
+xSize(data) $\equiv$ + i : $\mathbb{N}$ $|$ i $<$ $|data|$ . (data[i] = 0 $\lor$ data[i] = 1 $\lor$ data[i]) = "$\backslash$n" $\Rightarrow$ end \\
+\wss{count the number of 0's and 1's in the first row, once a new line character is reached break from the loop}\\
+
+\noindent ySize: string $\Rightarrow$ $\mathbb{Z}$ \\
+ySize(data) $\equiv$ + i : $\mathbb{N}$ $|$ i $<$ $|data|$ . (data[i] = $"\backslash n"$) \\
+\wss{count the number of new line characters} \\
+
+\noindent checkstatus: string $\times$ $\mathbb{N}$ $\times$ $\mathbb{N}$ $\Rightarrow$ $\mathbb{B}$ \\
+checkstatus(e, i, j) $\equiv$ \\
+    \indent alive = + ($\forall$ x,y : $\mathbb{N}$ $|$ x = $\{i-1,i,i+1\}$ $\land$ y = $\{j-1,j,j+1\}$ : \\ \indent checkValid(x,y,i,j) $\land$ game[x][y] = 1)\\
+output = checkAlive(e, alive) \\
+\wss{for each index check all neighbouring cells if they are valid(checkValid) and equal to one. Then return the checkAlive of the cell and how many neighbouring cells are alive} \\
+
+\noindent checkValid: $\mathbb{N}$ $\times$ $\mathbb{N}$ $\times$ $\mathbb{N}$ $\times$ $\mathbb{N}$ $\Rightarrow$ $\mathbb{B}$ \\
+checkValid(x,y,i,j) $\equiv$ \\
+\indent (x $>$ -1 $\land$ y $>$ -1) $\land$ (x $<$ $|game|$ $\land$ y $<$ $|game[0]|$) $\land$ !(x = i $\land$ y = j) \\
+\wss{Checks if the neighbouring cells are valid to check, negative indicies and indicies out of range are ommited and the cell itself are ommited} \\
+
+\noindent checkAlive: string $\times$ $\mathbb{N}$ $\Rightarrow$  $\mathbb{B}$\\
+checkAlive(e, alive) $\equiv$ \\
+\begin{table}[!ht]
+    \begin{tabular}{|l|l|l|l|l|l|}
+        \hline
+        e$\backslash$Alive & 0     & 1     & 2     & 3    & 3$=<$   \\ \hline
+        1       & F & F & $T$  & $T$ & F \\ \hline
+        0       & F & F & F & $T$ & F \\
+        \hline
+    \end{tabular}
+\end{table}\\
+
+\wss{Checks if the cell is alive by following the rules of the game, if the cell is alive and has 2 or 3 neighbours it stays alive else it dies. Or if the cell is dead, but had 3 neighbours then it is populated} \\
+
+
+\end{document}

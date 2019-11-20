@@ -1,0 +1,89 @@
+\hypertarget{class_g_o_l___board}{}\section{G\+O\+L\+\_\+\+Board Class Reference}
+\label{class_g_o_l___board}\index{G\+O\+L\+\_\+\+Board@{G\+O\+L\+\_\+\+Board}}
+
+
+Class defining the Game\+Board and its functions.  
+
+
+
+
+{\ttfamily \#include $<$G\+O\+L\+\_\+\+Board.\+h$>$}
+
+\subsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\hyperlink{class_g_o_l___board_a3a9d866e9d8904ce39324f26f084eac4}{G\+O\+L\+\_\+\+Board} (string data)
+\begin{DoxyCompactList}\small\item\em Constructs a new game board. \end{DoxyCompactList}\item 
+void \hyperlink{class_g_o_l___board_a0d555031e589a326adb485289a0a8a68}{next\+Move} ()
+\begin{DoxyCompactList}\small\item\em advances the move to next game board position \end{DoxyCompactList}\item 
+string \hyperlink{class_g_o_l___board_a9ef0e2f7c255f0bb486c8a31e392f284}{to\+String} ()
+\begin{DoxyCompactList}\small\item\em converts game board to a string \end{DoxyCompactList}\item 
+\hyperlink{_g_o_l___board_8h_aa8eecda883d639cd0032a7263411964f}{board\+Array} \hyperlink{class_g_o_l___board_a958a4c2dfe07b3d88d003afb72b9435a}{get\+Board\+Array} ()
+\begin{DoxyCompactList}\small\item\em returns the 2D boad array \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\subsection{Detailed Description}
+Class defining the Game\+Board and its functions. 
+
+Game Board for John Conway\textquotesingle{}s Game of Life 
+
+\subsection{Constructor \& Destructor Documentation}
+\mbox{\Hypertarget{class_g_o_l___board_a3a9d866e9d8904ce39324f26f084eac4}\label{class_g_o_l___board_a3a9d866e9d8904ce39324f26f084eac4}} 
+\index{G\+O\+L\+\_\+\+Board@{G\+O\+L\+\_\+\+Board}!G\+O\+L\+\_\+\+Board@{G\+O\+L\+\_\+\+Board}}
+\index{G\+O\+L\+\_\+\+Board@{G\+O\+L\+\_\+\+Board}!G\+O\+L\+\_\+\+Board@{G\+O\+L\+\_\+\+Board}}
+\subsubsection{\texorpdfstring{G\+O\+L\+\_\+\+Board()}{GOL\_Board()}}
+{\footnotesize\ttfamily G\+O\+L\+\_\+\+Board\+::\+G\+O\+L\+\_\+\+Board (\begin{DoxyParamCaption}\item[{string}]{data }\end{DoxyParamCaption})}
+
+
+
+Constructs a new game board. 
+
+Sets starting position for game board from the String data 
+\begin{DoxyParams}{Parameters}
+{\em data} & a string of 0\textquotesingle{}s and 1\textquotesingle{}s to be read into an array \\
+\hline
+\end{DoxyParams}
+
+
+\subsection{Member Function Documentation}
+\mbox{\Hypertarget{class_g_o_l___board_a958a4c2dfe07b3d88d003afb72b9435a}\label{class_g_o_l___board_a958a4c2dfe07b3d88d003afb72b9435a}} 
+\index{G\+O\+L\+\_\+\+Board@{G\+O\+L\+\_\+\+Board}!get\+Board\+Array@{get\+Board\+Array}}
+\index{get\+Board\+Array@{get\+Board\+Array}!G\+O\+L\+\_\+\+Board@{G\+O\+L\+\_\+\+Board}}
+\subsubsection{\texorpdfstring{get\+Board\+Array()}{getBoardArray()}}
+{\footnotesize\ttfamily \hyperlink{_g_o_l___board_8h_aa8eecda883d639cd0032a7263411964f}{board\+Array} G\+O\+L\+\_\+\+Board\+::get\+Board\+Array (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+returns the 2D boad array 
+
+\begin{DoxyReturn}{Returns}
+the game\+Board\+Array 
+\end{DoxyReturn}
+\mbox{\Hypertarget{class_g_o_l___board_a0d555031e589a326adb485289a0a8a68}\label{class_g_o_l___board_a0d555031e589a326adb485289a0a8a68}} 
+\index{G\+O\+L\+\_\+\+Board@{G\+O\+L\+\_\+\+Board}!next\+Move@{next\+Move}}
+\index{next\+Move@{next\+Move}!G\+O\+L\+\_\+\+Board@{G\+O\+L\+\_\+\+Board}}
+\subsubsection{\texorpdfstring{next\+Move()}{nextMove()}}
+{\footnotesize\ttfamily void G\+O\+L\+\_\+\+Board\+::next\+Move (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+advances the move to next game board position 
+
+based on the rules fills in and deletes cells \mbox{\Hypertarget{class_g_o_l___board_a9ef0e2f7c255f0bb486c8a31e392f284}\label{class_g_o_l___board_a9ef0e2f7c255f0bb486c8a31e392f284}} 
+\index{G\+O\+L\+\_\+\+Board@{G\+O\+L\+\_\+\+Board}!to\+String@{to\+String}}
+\index{to\+String@{to\+String}!G\+O\+L\+\_\+\+Board@{G\+O\+L\+\_\+\+Board}}
+\subsubsection{\texorpdfstring{to\+String()}{toString()}}
+{\footnotesize\ttfamily string G\+O\+L\+\_\+\+Board\+::to\+String (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})}
+
+
+
+converts game board to a string 
+
+\begin{DoxyReturn}{Returns}
+a string representation of the game board 
+\end{DoxyReturn}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+include/\hyperlink{_g_o_l___board_8h}{G\+O\+L\+\_\+\+Board.\+h}\end{DoxyCompactItemize}
